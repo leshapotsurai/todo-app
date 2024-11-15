@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import AddTodo from "./components/AddTodo/AddTodo";
+import Header from "./components/Header/Header";
+import TodoList from "./components/TodoList/TodoList";
+import { Layout } from "antd";
+
+const { Header: AntHeader, Content } = Layout;
 
 function App() {
+  const [todo, setTodo] = useState([
+    {
+      id: 1,
+      title: "first todo",
+      status: true,
+    },
+    {
+      id: 2,
+      title: "second todo",
+      status: true,
+    },
+    {
+      id: 3,
+      title: "third todo",
+      status: true,
+    },
+  ]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <AntHeader
+        style={{ color: "#fff", textAlign: "center", fontSize: "24px" }}
+      >
+        ToDo List
+      </AntHeader>
+      <Content style={{ padding: "20px" }}>
+        <AddTodo todo={todo} setTodo={setTodo} />
+        <TodoList todo={todo} setTodo={setTodo} />
+      </Content>
+    </Layout>
   );
 }
 
