@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { List, Button, Input, Space, Typography, Tag } from "antd";
+import { List, Button, Input, Typography, Tag } from "antd";
 
 const { Text } = Typography;
 
@@ -46,20 +46,24 @@ function TodoList({ todo, setTodo }) {
           actions={
             edit === item.id
               ? [
+                  // eslint-disable-next-line react/jsx-key
                   <Button type="primary" onClick={() => saveEditTodo(item.id)}>
                     Сохранить
                   </Button>,
                 ]
               : [
+                  // eslint-disable-next-line react/jsx-key
                   <Button danger onClick={() => deleteTodo(item.id)}>
                     Удалить
                   </Button>,
+                  // eslint-disable-next-line react/jsx-key
                   <Button
                     type={item.status ? "default" : "dashed"}
                     onClick={() => statusTodo(item.id)}
                   >
                     {item.status ? "Закрыть" : "Открыть"}
                   </Button>,
+                  // eslint-disable-next-line react/jsx-key
                   <Button onClick={() => editTodo(item.id, item.title)}>
                     Редактировать
                   </Button>,
