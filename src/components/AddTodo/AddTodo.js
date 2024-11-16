@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 import { Input, Button, Space } from "antd";
 
-function AddTodo({ todo, setTodo }) {
+function AddTodo({ setTodo }) {
   const [value, setValue] = useState("");
 
-  function saveTodo() {
+  async function saveTodo() {
     if (value.trim()) {
-      setTodo([
-        ...todo,
-        {
-          id: Date.now(),
-          title: value,
-          status: true,
-        },
-      ]);
-      setValue("");
+      try {
+        const response = await fetch("http://localhost:5000/todos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: value,
+            status: true,
+          }),
+        });
+
+        if (response.ok) {
+          const newTodo = await response.json();
+          console.log("Задача успешно добавлена:", newTodo);
+          setTodo((prevTodos) => [...prevTodos, newTodo]);
+          setValue("");
+        } else {
+          console.error("Не удалось сохранить задачу:", response.status);
+        }
+      } catch (error) {
+        console.error("Ошибка при сохранении задачи:", error);
+      }
     }
   }
 
