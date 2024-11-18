@@ -27,12 +27,23 @@ function App() {
     const response = await axios.put(`http://localhost:5000/todos/${id}`, {
       status,
     });
-    setTodo(todo.map((item) => (item._id === id ? response.data : item)));
+    setTodo((prevTodos) =>
+      prevTodos.map((item) => (item._id === id ? response.data : item))
+    );
+  }
+
+  async function updateTodoTitle(id, title) {
+    const response = await axios.put(`http://localhost:5000/todos/${id}`, {
+      title,
+    });
+    setTodo((prevTodos) =>
+      prevTodos.map((item) => (item._id === id ? response.data : item))
+    );
   }
 
   async function deleteTodo(id) {
     await axios.delete(`http://localhost:5000/todos/${id}`);
-    setTodo(todo.filter((item) => item._id !== id));
+    setTodo((prevTodos) => prevTodos.filter((item) => item._id !== id));
   }
 
   return (
@@ -43,12 +54,12 @@ function App() {
         ToDo List
       </AntHeader>
       <Content style={{ padding: "20px" }}>
-        <AddTodo setTodo={setTodo} />
+        <AddTodo addTodo={addTodo} />
         <TodoList
           todo={todo}
-          setTodo={setTodo}
           updateTodoStatus={updateTodoStatus}
           deleteTodo={deleteTodo}
+          updateTodoTitle={updateTodoTitle}
         />
       </Content>
     </Layout>

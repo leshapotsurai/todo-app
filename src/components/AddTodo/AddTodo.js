@@ -1,31 +1,17 @@
 import React, { useState } from "react";
 import { Input, Button, Space } from "antd";
 
-function AddTodo({ setTodo }) {
+function AddTodo({ addTodo }) {
   const [value, setValue] = useState("");
 
   async function saveTodo() {
     if (value.trim()) {
       try {
-        const response = await fetch("http://localhost:5000/todos", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: value,
-            status: true,
-          }),
+        await addTodo({
+          title: value,
+          status: false,
         });
-
-        if (response.ok) {
-          const newTodo = await response.json();
-          console.log("Задача успешно добавлена:", newTodo);
-          setTodo((prevTodos) => [...prevTodos, newTodo]);
-          setValue("");
-        } else {
-          console.error("Не удалось сохранить задачу:", response.status);
-        }
+        setValue("");
       } catch (error) {
         console.error("Ошибка при сохранении задачи:", error);
       }
